@@ -1,6 +1,6 @@
 # HotGestures
 
-This is the recognizer used in HotGestures using `Python 3.8` and `Pytorch 1.7.0`.
+This is the recognizer used in the TVCG2023 paper [HotGestures](https://ieeexplore.ieee.org/document/10269004) using `Python 3.8` and `Pytorch 1.7.0`.
 
 # Training
 Two separate models, one for each hand. To train a recognizer:
