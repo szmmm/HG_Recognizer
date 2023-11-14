@@ -13,3 +13,17 @@ The best models should be saved in `model_fold`.
 
 # Testing
 Run `test_two_hands.py`. The script uses the unsegmented data from `/online_seq` to generate predictions using the specified models. Errors are calculated in terms of Levenshtain distances. 
+
+# Acknowledgement
+If you find this work useful please kindly cite us at:
+`
+@ARTICLE{10269004,
+  author={Song, Zhaomou and Dudley, John J. and Kristensson, Per Ola},
+  journal={IEEE Transactions on Visualization and Computer Graphics}, 
+  title={HotGestures: Complementing Command Selection and Use with Delimiter-Free Gesture-Based Shortcuts in Virtual Reality}, 
+  year={2023},
+  volume={29},
+  number={11},
+  pages={4600-4610},
+  doi={10.1109/TVCG.2023.3320257}}
+`
