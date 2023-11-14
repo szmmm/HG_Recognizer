@@ -16,7 +16,7 @@ Run `test_two_hands.py`. The script uses the unsegmented data from `/online_seq`
 
 # Acknowledgement
 If you find this work useful please kindly cite us at:
-`
+```
 @ARTICLE{10269004,
   author={Song, Zhaomou and Dudley, John J. and Kristensson, Per Ola},
   journal={IEEE Transactions on Visualization and Computer Graphics}, 
@@ -26,4 +26,4 @@ If you find this work useful please kindly cite us at:
   number={11},
   pages={4600-4610},
   doi={10.1109/TVCG.2023.3320257}}
-`
+```
