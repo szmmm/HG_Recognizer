@@ -260,14 +260,6 @@ if __name__ == "__main__":
 
     test_subject = '1-2'
 
-    rh_tr_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/P*[!{test_subject}]/*/*right_hand*.csv'
-    # rh_v_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/ConfusionMatrix/*/*right_hand*.csv'
-    rh_v_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/P*[{test_subject}]/*/*right_hand*.csv'
-
-    lh_tr_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/P*[!{test_subject}]/*/*left_hand*.csv'
-    # lh_v_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/ConfusionMatrix/*/*left_hand*.csv'
-    lh_v_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/P*[{test_subject}]/*/*left_hand*.csv'
-    
     # rh_tr_data = f'/training_data/P*[!{test_subject}]/*/*right_hand*.csv'
     # rh_v_data = f'/training_data/P*[{test_subject}]/*/*right_hand*.csv'
     #
