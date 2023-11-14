@@ -10,7 +10,7 @@ def parser_args():
     parser.add_argument('--cuda', default=True, help='enables cuda for GPU training')
     parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                         help='number of data loading workers (default: 4)')
-    parser.add_argument('--epochs', default=50, type=int, metavar='N',
+    parser.add_argument('--epochs', default=1, type=int, metavar='N',
                         help='number of total epochs to run')
 
     parser.add_argument('--patience', default=5, type=int,
@@ -21,7 +21,7 @@ def parser_args():
 
     parser.add_argument("--training", dest='training', action='store_false')
     parser.add_argument('--no-training', '--no_training', dest='training', action='store_false')
-    parser.set_defaults(training=True)
+    parser.set_defaults(training=False)
 
     parser.add_argument("--inference", dest='inference', action='store_true')
     parser.add_argument('--no-inference', '--no_inference', dest='inference', action='store_false')

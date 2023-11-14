@@ -1,0 +1,23 @@
+Segmenting training data from csv...
+Segmenting training data from csv...
+
+Segmenting test data from csv...
+
+Using data noise augmentation
+
+Input Parameters:
+Namespace(batch_size=32, calibration=True, cuda=True, dp_rate=0.2, epochs=1, frame_size=20, gpu=0, inference=False, learning_rate=0.001, no_gpu=False, patience=5, training=True, workers=4)
+
+Initialising model.............
+Current device is: NVIDIA GeForce GTX 1070
+training data num: 2886
+test data num: 800
+batch size: 32
+num of workers: 4
+
+*** Starting Training ***
+
+Current Epoch: [ 1] time: 6.4698, train_loss: 0.2784  train_acc: 0.8829
+Current Epoch: [ 1], val_loss: 0.0543  val_acc: 0.9850
+Performance improve, saving new model. Best accuracy: 0.985
+[1.    1.    0.975 0.965]

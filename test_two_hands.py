@@ -11,7 +11,7 @@ if __name__ == "__main__":
     print('\n=====================\nRunning Online Recognition Test\n=====================')
 
     model_fold = "/right_model"
-    output_dir = "HG_Recogniser/log"  # logging currently not in use
+    output_dir = "/HG_Recogniser/log"  # logging currently not in use
     best_model = "best_model"
     model_path = f'{model_fold}/{best_model}.pth'
 

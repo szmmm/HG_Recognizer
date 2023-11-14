@@ -22,22 +22,7 @@ def load_data(data_path, num_frame, use_quaternion=True):
         csv_data = np.split(csv_data, data_len // num_frame, axis=0)
 
         for data_point in csv_data:
-            # data_point = selected_frame(csv_data, num_frame)
 
-            # if 'rotate' in file:
-            #     label_list.append(0)
-            # elif 'scale' in file:
-            #     label_list.append(1)
-            # elif 'show' in file:
-            #     label_list.append(2)
-            # elif 'change' in file:
-            #     label_list.append(3)
-            # if 'scale_x' in file:
-            #     label_list.append(0)
-            # elif 'scale_y' in file:
-            #     label_list.append(1)
-            # elif 'scale_z' in file:
-            #     label_list.append(2)
             if 'scale' in file:
                 label_list.append(0)
             elif 'duplicate' in file or 'delete' in file:
@@ -97,14 +82,7 @@ def load_lh_data(data_path, num_frame, use_quaternion=True):
         csv_data = np.split(csv_data, data_len // num_frame, axis=0)
 
         for data_point in csv_data:
-            # data_point = selected_frame(csv_data, num_frame)
 
-            # if 'scale_x' in file:
-            #     label_list.append(0)
-            # elif 'scale_y' in file:
-            #     label_list.append(1)
-            # elif 'scale_z' in file:
-            #     label_list.append(2)
             if 'scale' in file:
                 label_list.append(0)
             elif 'duplicate' in file:
@@ -198,10 +176,6 @@ def change_state(data_path):
             if 'state' in header:
                 gesture_clip[header] = 4
 
-    # print(state_column)
-    # print(state_column.shape)
-    # print(transition_1)
-    # print(transition_2)
 
     new_path = data_path.replace('training_data', 'training_data_multistate')
     new_dir = new_path.split("gesture_")[0]
@@ -209,26 +183,6 @@ def change_state(data_path):
         os.makedirs(new_dir)
 
     gesture_clip.to_csv(new_path, index=False)
-
-
-def add_label(data_set):
-    label_list = np.zeros(data_set.shape[0])
-    label_list[46:194] = 8
-    label_list[335:475] = 7
-    label_list[630:801] = 2
-    label_list[973:1120] = 3
-    label_list[1303:1433] = 9
-    label_list[1708:1875] = 0
-    label_list[2484:2608] = 10
-    label_list[2807:3020] = 5
-    label_list[3150:3308] = 1
-    label_list[3425:3550] = 6
-    label_list[3710:3920] = 11
-
-    label_list[label_list == 0] = 12
-    data_set["label"] = label_list
-
-    return data_set
 
 
 def selected_frame(data, num_frame):
@@ -241,45 +195,3 @@ def selected_frame(data, num_frame):
     interval = frame / num_frame
     uniform_list = [int(i * interval) for i in range(num_frame)]
     return data.iloc[uniform_list]
-
-
-if __name__ == "__main__":
-    test_subject = '3'
-    tr_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/*[!{test_subject}]/*/*.csv'
-    test_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/*[{test_subject}]/spray/*right*.csv'
-    # for file in sorted(glob.glob(test_data)):
-    #     print(file)
-    # train_d, train_l, train_s = load_data(train_data, num_frame=50)
-    test_d, test_l, test_s = load_data(test_data, num_frame=20)
-    # # print(len(dataset))
-    # # print(len(states))
-    # # print(dataset[0])
-    # # print(labels[0])
-    # # print(states[0])
-    #
-    # # train_d, test_d, train_l, test_l, train_s, test_s = train_test_split(dataset, labels, states)
-    # print(test_l[1])
-    # print(test_s[1])
-    # print(test_d[1][20])
-    #
-    # print(test_l[10])
-    # print(test_s[10])
-    # print(test_d[10][20])
-    #
-    # print(train_d.shape, test_d.shape)
-    # training_set = SkeletonData(train_d, train_l, train_s, use_data_aug=False)
-    # training_aug = SkeletonData(train_d, train_l, train_s, use_data_aug=True)
-    # test_set = SkeletonData(test_d, test_l, test_s, mode="test")
-    # print(len(training_set))
-    # print(len(training_aug))
-    # print(training_set[0][0][0])
-    # print(training_aug[0][0][0])
-    # print(test_set[0][2])
-
-    # data_loader_train = DataLoader(training_set, batch_size=32, shuffle=True, drop_last=False)
-    # for i, batched in enumerate(data_loader_train):
-    #     print(batched)
-    #
-    # data_p = "C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand/training_data/*/*/*.csv"
-    # for file_name in sorted(glob.glob(data_p)):
-    #     change_state(file_name) # split csv into data points with label

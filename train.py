@@ -75,24 +75,15 @@ def model_forward(batched_sample, model, criterion1, criterion2):
     state_labels = batched_sample[2]
     state_labels = state_labels.type(torch.LongTensor)
 
-    # print(state_labels.shape)
-    # print(state_labels)
-
     class_labels = class_labels.to(device)
     state_labels = state_labels.to(device)
 
     class_prob, state_prob = model(data)
 
-    # print(state_prob.shape)
-
     loss1 = criterion1(class_prob, class_labels)
     loss2 = criterion2(state_prob, state_labels)
 
-    # print(loss1)
-    # print(loss2)
     total_loss = 0.8 * loss1 + 0.2 * loss2
-    # total_loss = loss1
-    # accuracy = get_acc(class_prob, class_labels)
 
     return class_prob, state_prob, total_loss
 
@@ -128,8 +119,10 @@ def train_model(arguments, model_type, name, t_data, v_data=None):
     if arguments.training:
         # folder for saving trained model...
         # change this path to the fold where you want to save your pre-trained model
-        model_fold = "/HG_Recogniser/{}" \
-            .format("saved_model_" + datetime.now().strftime('%d%m%y') + '_' + name)
+        name = datetime.now().strftime('%d%m%y') + '_' + name
+        path = os.getcwd()
+        model_fold = f"{path}/{name}"
+
         if not os.path.exists(model_fold):
             os.makedirs(model_fold)
 
@@ -247,7 +240,7 @@ def train_model(arguments, model_type, name, t_data, v_data=None):
                     total_acc = round(total_acc, 3)
                     best_model = "ep_{}_acc_{}_{}".format(epoch + 1, total_acc,
                                                           datetime.now().strftime('%H%M%S'))
-                    torch.save(model.module.state_dict(), f'{model_fold}/{best_model}.pth')
+                    torch.save(model.module.state_dict(), f'{model_fold}/{best_model}.pt')
                     logger.info(
                         "Performance improve, saving new model. Best average accuracy: {}".format(total_acc))
                     # print(val_cm)
@@ -267,9 +260,9 @@ def train_model(arguments, model_type, name, t_data, v_data=None):
         try:
             model_path = f'{model_fold}/{best_model}'
         except NameError:
-            model_fold = "C:/Users/Zhaomou Song/TSA_DualNet/saved_model_240323_RH_model_20f_scale_1-2_256_0.8"
+            model_fold = "saved_models/saved_model_240323_RH_model_20f_scale_1-2_256_0.8"
             best_model = "ep_7_acc_0.948_134202_scaled"
-            model_path = f'{model_fold}/{best_model}.pth'
+            model_path = f'{model_fold}/{best_model}.pt'
             logger = get_logger(model_fold + "/train.log")
 
             val_data, val_label, val_state = load_data(data_path=v_data, num_frame=arguments.frame_size)
@@ -315,22 +308,27 @@ def train_model(arguments, model_type, name, t_data, v_data=None):
 
     if arguments.calibration:
         try:
-            model_path = f'{model_fold}/{best_model}.pth'
+            model_path = f'{model_fold}/{best_model}.pt'
         except NameError:
-            model_fold = "C:/Users/Zhaomou Song/TSA_DualNet/saved_model_240323_RH_model_20f_scale_1-2_256_0.8"
-            best_model = "ep_7_acc_0.948_134202_scaled"
-            model_path = f'{model_fold}/{best_model}.pth'
+            model_fold = f"{os.getcwd()}/131123_RH_model_20f_noise_1-2_256"
+            best_model = "ep_1_acc_0.887_153402"
+            model_path = f'{model_fold}/{best_model}.pt'
             logger = get_logger(model_fold + "/train.log")
             train_loader, val_loader = init_data_loader(arguments, logger, t_data, v_data)
         model = initialise_model(arguments, model_type)
         model.module.load_state_dict(torch.load(model_path))
 
+        epoch = 5
         scaled_model = ModelWithTemperature(model)
-        scaled_model, before_nll, before_ece, after_nll, after_ece = scaled_model.set_temperature(val_loader)
 
-        logger.info('Before temperature - NLL: %.3f, ECE: %.3f' % (before_nll, before_ece))
-        logger.info('Optimal temperature: %.3f' % scaled_model.temperature.item())
-        logger.info('After temperature - NLL: %.3f, ECE: %.3f' % (after_nll, after_ece))
+        for i in range(epoch):
+            scaled_model, before_nll, before_ece, after_nll, after_ece = scaled_model.set_temperature(val_loader)
 
-        torch.save(scaled_model.state_dict(), f'{model_fold}/{best_model}_scaled.pth')
+            logger.info('Before temperature - NLL: %.3f, ECE: %.3f' % (before_nll, before_ece))
+            logger.info('After temperature - NLL: %.3f, ECE: %.3f' % (after_nll, after_ece))
+            logger.info('Optimal temperature: %.3f' % scaled_model.temperature.item())
+
+        torch.save(scaled_model.state_dict(), f'{model_fold}/{best_model}_scaled.pt')
+
+        print(f"Final Temperature: {scaled_model.temperature.item()}")
         print("\nModel calibrated SUCCESSFULLY!")

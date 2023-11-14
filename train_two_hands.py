@@ -91,8 +91,10 @@ def train_lh_model(arguments, model_type, name, t_data, v_data=None):
     if arguments.training:
         # folder for saving trained model...
         # change this path to the fold where you want to save your pre-trained model
-        model_fold = "/HG_Recogniser/{}" \
-            .format("saved_model_" + datetime.now().strftime('%d%m%y') + '_' + name)
+        name = datetime.now().strftime('%d%m%y') + '_' + name
+        path = os.getcwd()
+        model_fold = f"{path}/{name}"
+
         if not os.path.exists(model_fold):
             os.makedirs(model_fold)
 
@@ -192,7 +194,7 @@ def train_lh_model(arguments, model_type, name, t_data, v_data=None):
                     min_loss = val_loss
                     val_loss = round(val_loss, 3)
                     max_acc = val_acc
-                    best_model = "ep_{}_acc_{}_{}.pth".format(epoch + 1, val_acc,
+                    best_model = "ep_{}_acc_{}_{}.pt".format(epoch + 1, val_acc,
                                                               datetime.now().strftime('%H%M%S'))
                     torch.save(model.module.state_dict(), f'{model_fold}/{best_model}')
                     logger.info(
@@ -209,12 +211,12 @@ def train_lh_model(arguments, model_type, name, t_data, v_data=None):
     if arguments.inference:
         print("\n*** Start Inference ***")
         try:
-            model_path = f'{model_fold}/{best_model}'
+            model_path = f'{model_path}/{best_model}'
         except NameError:
             test_sub = '8'
-            model_fold = "C:/Users/Zhaomou Song/TSA_DualNet/saved_model_240323_LH_model_20f_scale_1-2_256_0.8"
+            model_fold = f"{os.getcwd()}/saved_model_240323_LH_model_20f_scale_1-2_256_0.8"
             best_model = "ep_6_acc_0.995_134636"
-            model_path = f'{model_fold}/{best_model}.pth'
+            model_path = f'{model_fold}/{best_model}.pt'
             logger = get_logger(model_fold + "train.log")
 
             test_data, test_label, test_state = load_lh_data(data_path=v_data, num_frame=arguments.frame_size)
@@ -258,6 +260,14 @@ if __name__ == "__main__":
 
     test_subject = '1-2'
 
+    rh_tr_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/P*[!{test_subject}]/*/*right_hand*.csv'
+    # rh_v_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/ConfusionMatrix/*/*right_hand*.csv'
+    rh_v_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/P*[{test_subject}]/*/*right_hand*.csv'
+
+    lh_tr_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/P*[!{test_subject}]/*/*left_hand*.csv'
+    # lh_v_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/ConfusionMatrix/*/*left_hand*.csv'
+    lh_v_data = f'C:/Users/Zhaomou Song/AppData/LocalLow/zs323/MagicalHand_MRTK/training_data/P*[{test_subject}]/*/*left_hand*.csv'
+    
     # rh_tr_data = f'/training_data/P*[!{test_subject}]/*/*right_hand*.csv'
     # rh_v_data = f'/training_data/P*[{test_subject}]/*/*right_hand*.csv'
     #
