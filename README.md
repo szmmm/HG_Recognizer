@@ -4,7 +4,7 @@ This is the recognizer used in the TVCG2023 paper [HotGestures](https://ieeexplo
 
 # Training
 Two separate models, one for each hand. To train a recognizer:
-1. Download the HotGestures dataset
+1. Download the HotGestures dataset [here](https://doi.org/10.17863/CAM.97131).
 2. Change the data paths in `train_two_hands.py` to the local path on your computer.
 3. Change the `model_fold` paths in `train_two_hands.py` and `train.py` to a local directory
 4. Run `train_two_hands.py`
